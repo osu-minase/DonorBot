@@ -30,10 +30,10 @@ class Client(commands.Bot):
             return True 
 
             
-    @tasks.loop(seconds=10)
+    @tasks.loop(seconds=30)
     async def change_online(self):
         print('Changinx online channel...')
-        channel = self.fetch_channel(639131437932609556)
+        channel = await self.fetch_channel(639131437932609556)
         online = 0
         async with aiohttp.ClientSession().get('https://c.minase.tk/api/v1/onlineUsers') as res: 
             response = await res.json()
