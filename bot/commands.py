@@ -46,10 +46,10 @@ class Commands(commands.Cog):
                 return await create_custom_role()
             await role.edit(name=name, colour=discord.Colour(color))
             await ctx.send('**Your custom role has been edited successfully!**')
-            if user_info['roleid'] != 0:
-                await edit_custom_role(int(user_info['roleid']))
-            else:
-                await create_custom_role()
+        if user_info['roleid'] != 0:
+            await edit_custom_role(int(user_info['roleid']))
+        else:
+            await create_custom_role()
 
 
 def setup(bot):
