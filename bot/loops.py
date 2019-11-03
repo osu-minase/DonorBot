@@ -18,3 +18,7 @@ class Loops(commands.Cog):
         online = response['result']
 
         await channel.edit(name=f"Онлайн: {online}")
+
+
+def setup(bot):
+    bot.add_cog(Loops(bot))
