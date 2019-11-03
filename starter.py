@@ -6,6 +6,7 @@ import globals
 from Bot import Client
 import config
 from web import give_donor
+from web import clear_donor
 from helpers import db
 def bottle_server(host='127.0.0.1', port=8888):
     bottle.run(host=host, port=port, server='gevent')
