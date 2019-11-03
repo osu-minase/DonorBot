@@ -4,6 +4,7 @@ import threading
 import globals as glob
 import discord
 import config
+import requests
 import aiohttp
 class Client(commands.Bot):
     def __init__(self, *args, **kwargs):
@@ -36,9 +37,7 @@ class Client(commands.Bot):
         print('Changinx online channel...')
         channel = await self.fetch_channel(639131437932609556)
         online = 0
-        async with self.session.get('https://c.minase.tk/api/v1/onlineUsers') as res: 
-            response = await res.json()
-            print(response)
+        response = requests.get('https://c.minase.tk/api/v1/onlineUsers').json()
         online = response['result']
 
         await channel.edit(name=f"Онлайн: {online}")
