@@ -38,6 +38,7 @@ class Client(commands.Bot):
         online = 0
         async with self.session.get('https://c.minase.tk/api/v1/onlineUsers') as res: 
             response = await res.json()
+            print(response)
         online = response['result']
 
         await channel.edit(name=f"Онлайн: {online}")
