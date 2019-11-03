@@ -2,14 +2,19 @@ import bottle
 import time
 import json
 import config
+import discord
 import globals as glob
 from helpers import coro
+class InvalidArgumentsError(Exception):
+    pass
 class InvalidSecretKeyError(Exception):
+    pass
+class BotNotInServerError(Exception):
+    pass
+class NotInServerError(Exception):
     pass
 class NoRoleError(Exception):
     pass
-
-
 #Ripple code only :3
 @bottle.route("/api/v1/clear_donor", method="POST")
 def clear_donor_post():
@@ -19,14 +24,14 @@ def clear_donor_post():
 	}
 	try:
 		# Get discord expired donors
-		expired = globa.db.fetch_all("SELECT discord_roles.discordid, discord_roles.roleid, users.id FROM discord_roles RIGHT JOIN users ON users.id = discord_roles.userid WHERE users.privileges & 4 > 0 AND donor_expire <= %s", [int(time.time())])
+		expired = glob.db.fetch_all("SELECT discord_roles.discordid, discord_roles.roleid, users.id FROM discord_roles RIGHT JOIN users ON users.id = discord_roles.userid WHERE users.privileges & 4 > 0 AND donor_expire <= %s", [int(time.time())])
 
 		# Do all the work if the query has returned something
 		if expired is not None:
 			# Get discord server object and make sure it's valid
 			discord_server = glob.client.get_server(config.server)
 			if discord_server is None:
-				raise exceptions.NotInServerError()
+				raise NotInServerError()
 
 			# Get donators role object
 			donor_role = discord.utils.get(discord_server.roles, id=config.rid)
@@ -34,7 +39,7 @@ def clear_donor_post():
 			# Make sure the donorRole is valid
 			if donor_role is None:
 				coro.sync_coroutine(glob.client.fetch_channel(discord_server.system_channel).send("Error while cleaning expired donors! Looks like the donators role is gone! Nyo-sama where are you? :'("))
-				raise exceptions.NoRoleError()
+				raise NoRoleError()
 
 			# Remove donators and custom roles to expired donors
 			for i in expired:
