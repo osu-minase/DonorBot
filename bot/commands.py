@@ -26,7 +26,7 @@ class Commands(commands.Cog):
 
         async def create_custom_role():
             role_permissions = ctx.guild.default_role
-            role_permissions = role_permissions.role_permissions
+            role_permissions = role_permissions.permissions
             role_permissions.change_nickname = True
 
             donor_role = discord.utils.get(ctx.guild.roles, id=config.rid)
