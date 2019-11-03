@@ -38,7 +38,6 @@ def clear_donor_post():
 
 			# Make sure the donorRole is valid
 			if donor_role is None:
-				coro.sync_coroutine(glob.client.fetch_channel(discord_server.system_channel).send("Error while cleaning expired donors! Looks like the donators role is gone! Nyo-sama where are you? :'("))
 				raise NoRoleError()
 
 			# Remove donators and custom roles to expired donors
@@ -59,7 +58,7 @@ def clear_donor_post():
 					continue
 
 				# Remove donators role
-				coro.sync_coroutine(glob.client.remove_roles(discord_user, donor_role))
+				coro.sync_coroutine(discord_user.remove_roles(donor_role))
 
 				# Unlink discord and ripple accounts
 				glob.db.execute("DELETE FROM discord_roles WHERE discordid = %s LIMIT 1", [i["discordid"]])
@@ -68,23 +67,21 @@ def clear_donor_post():
 				glob.db.execute("DELETE FROM profile_backgrounds WHERE uid = %s LIMIT 1", [i["id"]])
 
 				# Get the custom role
-				custom_role = None
-				for j in discord_server.roles:
-					if j.id == str(i["roleid"]):
-						custom_role = j
+				custom_role = discord.utils.get(discord_server, id=i["roleid"])
 
 				# Make sure the custom role is valid
 				if custom_role is None:
 					continue
 
 				# Delete custom role from server
-				coro.sync_coroutine(glob.client.get_guild(discord_server).fetch_role(custom_role).delete())
+				
+				coro.sync_coroutine(custom_role.delete())
 
 		# Remove website and ingame expired donor privilege
 		glob.db.execute("UPDATE users SET privileges = privileges & ~4 WHERE privileges & 4 > 0 AND donor_expire <= %s", [int(time.time())])
 	except InvalidSecretKeyError:
 		data["status"] = 403
-		data["message"] = "Bot not in server"
+		data["message"] = "Invalid key"
 	except NoRoleError:
 		data["status"] = 500
 		data["message"] = "Donators role not found"
