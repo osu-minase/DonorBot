@@ -49,3 +49,7 @@ class Commands(commands.Cog):
                 await edit_custom_role(int(user_info['roleid']))
             else:
                 await create_custom_role()
+
+
+def setup(bot):
+    bot.add_cog(Commands(bot))
