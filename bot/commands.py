@@ -13,7 +13,7 @@ class Commands(commands.Cog):
 	    return True if hex_regex.match(col) is not None else False
     @commands.command()
     #@commands.cooldown(1, 300, commands.BucketType.user)
-    async def role(self, ctx: commands.Context, color=None, name=None):
+    async def role(self, ctx: commands.Context, color=None, *, name=None):
         user_info = glob.db.fetch("SELECT users.privileges, discord_roles.roleid FROM users LEFT JOIN discord_roles ON users.id = discord_roles.userid WHERE discordid = %s LIMIT 1", [ctx.author.id])
         if not color or not name:
             return await ctx.send(f'Usage: {ctx.prefix}role #color_in_hex name')
