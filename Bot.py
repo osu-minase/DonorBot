@@ -12,6 +12,7 @@ class Client(commands.Bot):
     def load(self):
         self.add_check(self.is_donor)
         self.load_extension('bot.commands')
+        self.load_extension('bot.loops')
 
 
 
