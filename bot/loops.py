@@ -8,7 +8,7 @@ class Loops(commands.Cog):
     """
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-    @tasks.loop(seconds=5)
+    @tasks.loop(minutes=1)
     async def change_online(self):
         guild = globals.client.get_guild(config.server)
         channel = guild.get_channel(639131437932609556)
