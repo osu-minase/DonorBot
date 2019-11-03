@@ -10,6 +10,7 @@ class Loops(commands.Cog):
         self.bot = bot
     @tasks.loop(minutes=1)
     async def change_online(self):
+        print('Changinx online channel...')
         guild = globals.client.get_guild(config.server)
         channel = guild.get_channel(639131437932609556)
         online = 0
