@@ -16,5 +16,5 @@ class Loops(commands.Cog):
         online = 0
         response = requests.get('https://c.minase.tk/api/v1/onlineUsers').json()
         online = response['result']
-
+        print('changing online channel...')
         await channel.edit(name=f"Онлайн: {online}")
