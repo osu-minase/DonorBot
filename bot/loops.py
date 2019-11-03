@@ -1,6 +1,7 @@
 from discord.ext import commands, tasks
 import aiohttp
 import config
+import requests
 import globals
 class Loops(commands.Cog):
     """
@@ -13,7 +14,7 @@ class Loops(commands.Cog):
         guild = globals.client.get_guild(config.server)
         channel = guild.get_channel(639131437932609556)
         online = 0
-        async with aiohttp.ClientSession().get('https://c.minase.tk/api/v1/onlineUsers') as res: response = await res.json()
+        response = requests.get('https://c.minase.tk/api/v1/onlineUsers').json()
         online = response['result']
 
         await channel.edit(name=f"Онлайн: {online}")
