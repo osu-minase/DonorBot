@@ -1,7 +1,6 @@
 from discord.ext import commands, tasks
 import aiohttp
 import config
-import requests
 import globals
 class Loops(commands.Cog):
     """
@@ -10,11 +9,12 @@ class Loops(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     @tasks.loop(seconds=5)
-    def change_online(self):
-        response = requests.get('https://c.minase.tk/api/v1/onlineUsers')
-        online = response.json()['result']
+    async def change_online(self):
         guild = globals.client.get_guild(config.server)
         channel = guild.get_channel(639131437932609556)
-        print('changing online channel...')
-        await channel.edit(name=f"Online: {online}")
-        
+        online = 0
+        async with aiohttp.ClientSession().get('https://c.minase.tk/api/v1/onlineUsers') as res: 
+            response = await res.json()
+        online = response['result']
+
+        await channel.edit(name=f"Онлайн: {online}")
