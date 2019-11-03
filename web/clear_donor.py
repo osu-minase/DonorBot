@@ -83,10 +83,6 @@ def clear_donor_post():
 	except NoRoleError:
 		data["status"] = 500
 		data["message"] = "Donators role not found"
-	except:
-		data["status"] = 500
-		data["message"] = "Unhandled exception"
-		raise
 	finally:
 		json_data = json.dumps(data)
 		yield json_data
