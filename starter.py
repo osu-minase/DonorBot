@@ -14,5 +14,5 @@ def bottle_server(host='127.0.0.1', port=8888):
 if __name__ == "__main__":
     globals.client = Client(command_prefix='!')
     threading.Thread(target=bottle_server).start()
-    globals.database = db.Db()
+    globals.database = db.Db(config.host, config.username, config.password, config.database, 1)
     globals.client.run(config.token)
