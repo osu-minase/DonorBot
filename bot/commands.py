@@ -55,7 +55,7 @@ class Commands(commands.Cog):
     @commands.command()
     async def mycolor(self, ctx: commands.Context):
         discord_id = ctx.author.id
-	    user_info = glob.db.fetch("SELECT users.privileges, discord_roles.roleid FROM users LEFT JOIN discord_roles ON users.id = discord_roles.userid WHERE discordid = %s LIMIT 1", [discord_id])
+        user_info = glob.db.fetch("SELECT users.privileges, discord_roles.roleid FROM users LEFT JOIN discord_roles ON users.id = discord_roles.userid WHERE discordid = %s LIMIT 1", [discord_id])
 
 
         role_id = user_info['roleid']
