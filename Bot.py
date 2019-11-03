@@ -20,6 +20,7 @@ class Client(commands.Bot):
 
     async def on_ready(self):
         print(f'Bot logged as {self.user}')
+        self.session = aiohttp.ClientSession()
         self.change_online.start()
 
     async def is_donor(self, ctx: commands.Context):
@@ -35,7 +36,7 @@ class Client(commands.Bot):
         print('Changinx online channel...')
         channel = await self.fetch_channel(639131437932609556)
         online = 0
-        async with aiohttp.ClientSession().get('https://c.minase.tk/api/v1/onlineUsers') as res: 
+        async with self.session.get('https://c.minase.tk/api/v1/onlineUsers') as res: 
             response = await res.json()
         online = response['result']
 
