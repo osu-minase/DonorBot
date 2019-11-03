@@ -43,7 +43,7 @@ class Commands(commands.Cog):
             if role is None:
                 glob.db.execute("UPDATE discord_roles SET roleid = 0 WHERE discordid = %s LIMIT 1", [ctx.author.id])
                 return await create_custom_role()
-            await role.edit(name=name, colour=discord.Colour(role_color))
+            await role.edit(name=name, colour=discord.Colour(color))
             await ctx.send('**Your custom role has been edited successfully!**')
             if user_info['roleid'] != 0:
                 await edit_custom_role(int(user_info['roleid']))
