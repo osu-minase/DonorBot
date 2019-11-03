@@ -14,7 +14,7 @@ class NotInServerError(Exception):
     pass
 class NoRoleError(Exception):
     pass
-@bottle.route('/api/give_donor', method='POST')
+@bottle.route('/api/v1/give_donor', method='POST')
 def give_donor_post():
     data = {
         'status': 200,

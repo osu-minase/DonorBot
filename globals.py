@@ -1,2 +1,2 @@
 client = None
-database = None
+db = None
