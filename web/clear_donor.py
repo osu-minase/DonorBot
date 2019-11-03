@@ -29,7 +29,7 @@ def clear_donor_post():
 		# Do all the work if the query has returned something
 		if expired is not None:
 			# Get discord server object and make sure it's valid
-			discord_server = glob.client.get_server(config.server)
+			discord_server = glob.client.get_guild(config.server)
 			if discord_server is None:
 				raise NotInServerError()
 
