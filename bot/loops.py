@@ -8,6 +8,7 @@ class Loops(commands.Cog):
     """
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.change_online.start()
     @tasks.loop(minutes=1)
     async def change_online(self):
         print('Changinx online channel...')
