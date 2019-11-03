@@ -12,7 +12,7 @@ class Commands(commands.Cog):
 	    hex_regex = re.compile("^(?:[0-9a-fA-F]{3}){1,2}$")
 	    return True if hex_regex.match(col) is not None else False
     @commands.command()
-    @commands.Cooldown(commands.BucketType.user, 8.0, 300)
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def role(self, ctx: commands.Context, color=None, name=None):
         user_info = glob.db.fetch("SELECT users.privileges, discord_roles.roleid FROM users LEFT JOIN discord_roles ON users.id = discord_roles.userid WHERE discordid = %s LIMIT 1", [ctx.author.id])
         if not color or not name:
