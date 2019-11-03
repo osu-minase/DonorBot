@@ -2,6 +2,8 @@ import bottle
 from discord.ext import commands
 import threading
 import globals as glob
+import discord
+import config
 class Client(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,11 +21,9 @@ class Client(commands.Bot):
 
 
     async def is_donor(self, ctx: commands.Context):
-	# Make sure the user who has triggered the command is a donor
-        discord_id = ctx.author.id
-        user_info = glob.db.fetch("SELECT users.privileges, discord_roles.roleid FROM users LEFT JOIN discord_roles ON users.id = discord_roles.userid WHERE discordid = %s LIMIT 1", [discord_id])
-        if user_info is None or user_info["privileges"] & 4 == 0:
+        role = discord.utils.get(ctx.guild.roles, id=config.rid)
+        if role not in ctx.author.roles:
             return False
         else:
-            return True
+            return True 
     
