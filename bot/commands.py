@@ -16,12 +16,12 @@ class Commands(commands.Cog):
     async def role(self, ctx: commands.Context, color=None, name=None):
         user_info = glob.db.fetch("SELECT users.privileges, discord_roles.roleid FROM users LEFT JOIN discord_roles ON users.id = discord_roles.userid WHERE discordid = %s LIMIT 1", [ctx.author.id])
         if not color or not name:
-            await ctx.send(f'Usage: {ctx.prefix}role #color_in_hex name')
+            return await ctx.send(f'Usage: {ctx.prefix}role #color_in_hex name')
         if color.startswith('#'):
             color = color[1:]
         print(dir(color))
         if not self.is_hex_color(color):
-            await ctx.send("**Invalid HEX color.** Use this tool to choose your color: http://www.colorpicker.com/. The HEX color is the one that starts with '#'.")
+            return await ctx.send("**Invalid HEX color.** Use this tool to choose your color: http://www.colorpicker.com/. The HEX color is the one that starts with '#'.")
         color = int(color, 16)
 
         async def create_custom_role():
