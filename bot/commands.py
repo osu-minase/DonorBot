@@ -19,7 +19,6 @@ class Commands(commands.Cog):
             return await ctx.send(f'Usage: {ctx.prefix}role #color_in_hex name')
         if color.startswith('#'):
             color = color[1:]
-        print(dir(color))
         if not self.is_hex_color(color):
             return await ctx.send("**Invalid HEX color.** Use this tool to choose your color: http://www.colorpicker.com/. The HEX color is the one that starts with '#'.")
         color = int(color, 16)
@@ -51,6 +50,20 @@ class Commands(commands.Cog):
         else:
             await create_custom_role()
 
+
+
+    @commands.command()
+    async def mycolor(self, ctx: commands.Context):
+        discord_id = ctx.author.id
+	    user_info = glob.db.fetch("SELECT users.privileges, discord_roles.roleid FROM users LEFT JOIN discord_roles ON users.id = discord_roles.userid WHERE discordid = %s LIMIT 1", [discord_id])
+
+
+        role_id = user_info['roleid']
+        role = discord.utils.get(ctx.author.roles, id=role_id)
+        if not role:
+            return await ctx.send("**You don't have a custom role yet.** Please set it using !role command.")
+        
+        await ctx.send("Your custom role color is: **#{}**".format(format(role.colour.value, "x").upper()))
 
 def setup(bot):
     bot.add_cog(Commands(bot))
