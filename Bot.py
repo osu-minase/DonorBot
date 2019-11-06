@@ -39,5 +39,9 @@ class Client(commands.Bot):
         online = 0
         response = requests.get('https://c.minase.tk/api/v1/onlineUsers').json()
         online = response['result']
-
-        await channel.edit(name=f"Онлайн: {online} человека")
+        people = None
+        if online % 10 > 4 and online % 10 < 10 or online % 10 == 1 or online % 10 == 0:
+            people = 'человек'
+        else:
+            people = 'человека'
+        await channel.edit(name=f"Онлайн: {online} {people}")
