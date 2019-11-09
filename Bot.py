@@ -25,7 +25,7 @@ class Client(commands.Bot):
         print(f'Bot logged as {self.user}')
         self.session = aiohttp.ClientSession()
         #function = partial(self.change_online)
-        await self.loop.create_task(self.change_online)
+        await self.loop.create_task(coro=self.change_online)
 
     async def is_donor(self, ctx: commands.Context):
         role = discord.utils.get(ctx.guild.roles, id=config.rid)
