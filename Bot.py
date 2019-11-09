@@ -27,6 +27,7 @@ class Client(commands.Bot):
     async def is_donor(self, ctx: commands.Context):
         role = discord.utils.get(ctx.guild.roles, id=config.rid)
         if role not in ctx.author.roles:
+            await ctx.send('You need to buy supporter on our site to use this command!')
             return False
         else:
             return True 
