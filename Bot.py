@@ -22,7 +22,7 @@ class Client(commands.Bot):
     async def on_ready(self):
         print(f'Bot logged as {self.user}')
         self.session = aiohttp.ClientSession()
-        self.change_online.start()
+        await self.change_online()
 
     async def is_donor(self, ctx: commands.Context):
         role = discord.utils.get(ctx.guild.roles, id=config.rid)
@@ -33,16 +33,13 @@ class Client(commands.Bot):
             return True 
 
             
-    @tasks.loop(seconds=30)
     async def change_online(self):
-        print('Changinx online channel...')
         channel = await self.fetch_channel(639131437932609556)
         online = 0
         pubsub = glob.redis.pubsub()
         pubsub.subscribe(['ripple:online_users'])
         for i in pubsub.listen():
-            print(i) # debug
-            online = i['data']
+            online = int(i['data'])
         people = None
         if online % 10 > 4 and online % 10 < 10 or online % 10 == 1 or online % 10 == 0:
             people = 'человек'
