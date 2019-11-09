@@ -5,6 +5,8 @@ import globals as glob
 import discord
 import config
 import requests
+from helper import coro
+from functools import partial
 import aiohttp
 class Client(commands.Bot):
     def __init__(self, *args, **kwargs):
@@ -22,7 +24,8 @@ class Client(commands.Bot):
     async def on_ready(self):
         print(f'Bot logged as {self.user}')
         self.session = aiohttp.ClientSession()
-        await self.change_online()
+        function = partial(self.change_online)
+        self.loop.run_until_complete(function)
 
     async def is_donor(self, ctx: commands.Context):
         role = discord.utils.get(ctx.guild.roles, id=config.rid)
