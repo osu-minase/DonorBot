@@ -27,7 +27,7 @@ class Client(commands.Bot):
     async def is_donor(self, ctx: commands.Context):
         role = discord.utils.get(ctx.guild.roles, id=config.rid)
         if role not in ctx.author.roles:
-            returёn False
+            return False
         else:
             return True 
 
