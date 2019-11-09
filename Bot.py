@@ -24,7 +24,7 @@ class Client(commands.Bot):
     async def on_ready(self):
         print(f'Bot logged as {self.user}')
         self.session = aiohttp.ClientSession()
-        function = partial(self.change_online)
+        #function = partial(self.change_online)
         await self.loop.create_task(self.change_online)
 
     async def is_donor(self, ctx: commands.Context):
