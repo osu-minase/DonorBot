@@ -41,7 +41,7 @@ class Client(commands.Bot):
         pubsub = glob.redis.pubsub()
         pubsub.subscribe(['ripple:online_users'])
         for i in pubsub.listen():
-
+            print(i) # debug
             online = i['data']
         people = None
         if online % 10 > 4 and online % 10 < 10 or online % 10 == 1 or online % 10 == 0:
