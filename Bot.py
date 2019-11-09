@@ -5,7 +5,7 @@ import globals as glob
 import discord
 import config
 import requests
-from helper import coro
+from helpers import coro
 from functools import partial
 import aiohttp
 class Client(commands.Bot):
